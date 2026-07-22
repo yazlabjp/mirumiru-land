@@ -1,0 +1,96 @@
+/**
+ * base.css — リセット・レイアウト・共通画面(ai-notes.md §2, §5)
+ *
+ * 注記(実装AIへ): design.md 8-1は「BIZ UDPGothic woff2サブセットを自己ホスト」と
+ * 定めているが、このサンドボックス環境はネットワークアクセスが無く実フォントファイルを
+ * 取得できない。下の @font-face は core/v1/assets/fonts/ に該当ファイルを配置する前提の
+ * 雛形として書いてあるが、ファイル未配置の間は指定パスが404になりフォールバックの
+ * sans-serifへ自動的に落ちるだけで実害はない。実機投入前にフォントファイルの追加が必要。
+ */
+
+@font-face {
+  font-family: "BIZUDPGothic";
+  src: url("../assets/fonts/BIZUDPGothic-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "BIZUDPGothic";
+  src: url("../assets/fonts/BIZUDPGothic-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---- リセット ---- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* ページ全体はスクロールさせない(ステージが全面を占める) */
+  overscroll-behavior: none;
+}
+body {
+  font-family: "BIZUDPGothic", "Hiragino Maru Gothic ProN", "Hiragino Sans",
+    "Yu Gothic", sans-serif;
+  color: var(--ui-text, #2E2E2E);
+  /* ai-notes.md §5: 長押しメニュー・ダブルタップ拡大・テキスト選択の抑止 */
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+button {
+  font-family: inherit;
+  color: inherit;
+}
+h1, h2, h3, p {
+  margin: 0;
+}
+
+/* ---- ステージ(ai-notes.md §2) ---- */
+/* ステージ=ビューポート全面。iOS Safariのツールバー分のズレ対策として100dvh優先、フォールバック100vh */
+#stage {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  touch-action: none; /* ai-notes.md §5: ピンチ拡大・スクロールの抑止(常時マルチタッチ前提) */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  background: var(--bg-kinari, #FBF7EF);
+}
+
+/* ---- 汎用の表示切り替え(オーバーレイ・ダイアログ等が使う) ---- */
+.vt-orientation-guard,
+.vt-resume-overlay,
+.vt-countdown-overlay,
+.vt-teacher-panel,
+.vt-dialog-overlay {
+  display: none;
+}
+.vt-orientation-guard.vt-visible,
+.vt-resume-overlay.vt-visible,
+.vt-countdown-overlay.vt-visible,
+.vt-teacher-panel.vt-visible,
+.vt-dialog-overlay.vt-visible {
+  display: flex;
+}
+
+/* ---- アクセシビリティ: タッチターゲット最小72px(design.md 8-6) ---- */
+.vt-btn,
+.vt-seg-btn,
+.vt-stepper-btn,
+.vt-switch {
+  min-width: 72px;
+  min-height: 72px;
+}

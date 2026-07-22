@@ -1,0 +1,52 @@
+/**
+ * themes.css — 色のカスタムプロパティ(design.md 7-2の3層)
+ *
+ * 1. 系統色(A〜Fの棚の色。カタログ・アイコンで使う)
+ * 2. 刺激色(vt-stim.jsの絵カード・vt-shapeが参照する var(--stim-*))
+ * 3. 背景コントラスト(共通設定 contrast: kinari/white/black。vt-scene.jsが
+ *    #stageへ data-contrast 属性として反映する)
+ */
+
+:root {
+  /* ---- 1. 系統色(design.md 2-1) ---- */
+  --cat-a: #6EC1E4; /* A 目のうんどう/みずいろ */
+  --cat-b: #6FBF73; /* B 見てわかる/みどり */
+  --cat-c: #F59A3E; /* C 見てうごく/オレンジ */
+  --cat-d: #9B7FD1; /* D おぼえる・きづく/むらさき */
+  --cat-e: #F27EB6; /* E つかう/ピンク */
+  --cat-f: #9AA3AC; /* F はかる/グレー */
+
+  /* ---- 2. 刺激色(vt-stim.js) ---- */
+  --stim-red: #E85D4E;
+  --stim-orange: #F5A623;
+  --stim-yellow: #F7D046;
+  --stim-green: #6FBF73;
+  --stim-blue: #4A9DE0;
+  --stim-purple: #9B7FD1;
+  --stim-pink: #F2A6C9;
+  --stim-brown: #A9764A;
+  --stim-gray: #9AA3AC;
+  --stim-white: #FFFFFF;
+  --stim-black: #333333;
+
+  /* ---- 3. 背景コントラスト(共通設定 contrast) ---- */
+  --bg-kinari: #FBF7EF; /* 既定: やわらかい生成り */
+  --bg-white: #FFFFFF;
+  --bg-black: #1C1C1E;
+  --fg-on-light: #2E2E2E;
+  --fg-on-dark: #F5F5F5;
+
+  /* ---- 汎用UIトーン ---- */
+  --ui-surface: #FFFFFF;
+  --ui-border: #DDD6C9;
+  --ui-text: #2E2E2E;
+  --ui-text-muted: #7A7A7A;
+  --ui-accent: #4A9DE0;
+  --ui-success: #6FBF73;
+  --ui-shadow: rgba(0, 0, 0, 0.12);
+}
+
+/* 背景コントラスト適用(vt-scene.jsが#stageに data-contrast を設定する) */
+#stage[data-contrast="kinari"] { background: var(--bg-kinari); color: var(--fg-on-light); }
+#stage[data-contrast="white"] { background: var(--bg-white); color: var(--fg-on-light); }
+#stage[data-contrast="black"] { background: var(--bg-black); color: var(--fg-on-dark); }

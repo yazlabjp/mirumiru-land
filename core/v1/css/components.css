@@ -1,0 +1,334 @@
+/**
+ * components.css — ボタン・パネル・バー等(design.md 8-1)
+ * base.cssの後、themes.cssの後に読み込む想定(vt-api.md §0)。
+ */
+
+/* ============================================================
+ * 汎用ボタン
+ * ============================================================ */
+.vt-btn {
+  appearance: none;
+  border: none;
+  border-radius: 18px;
+  background: var(--ui-accent, #4A9DE0);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  padding: 16px 28px;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+.vt-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+}
+.vt-btn-start {
+  background: var(--cat-c, #F59A3E);
+  font-size: 28px;
+  padding: 20px 48px;
+}
+.vt-btn-again { background: var(--ui-success, #6FBF73); }
+.vt-btn-title { background: var(--ui-text-muted, #7A7A7A); }
+.vt-btn-panel-close { background: var(--ui-text-muted, #7A7A7A); align-self: center; }
+.vt-btn-reset-records { background: var(--cat-d, #9B7FD1); }
+.vt-btn-delete-records { background: #C0574A; }
+
+.vt-title {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--ui-text, #2E2E2E);
+  text-align: center;
+}
+
+/* ============================================================
+ * タブ非表示からの復帰オーバーレイ / 縦持ちガード / カウントダウン
+ * ============================================================ */
+.vt-orientation-guard,
+.vt-resume-overlay,
+.vt-countdown-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: rgba(28, 28, 30, 0.92);
+  color: #fff;
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  padding: 32px;
+}
+.vt-countdown-overlay {
+  font-size: 120px;
+}
+
+/* ============================================================
+ * タブ復帰オーバーレイ・タップ判定を示すヒント
+ * ============================================================ */
+.vt-resume-overlay::before {
+  content: "";
+  display: block;
+  width: 96px;
+  height: 96px;
+  margin-bottom: 24px;
+  border: 6px solid #fff;
+  border-radius: 50%;
+}
+
+/* ============================================================
+ * 先生モード長押しトリガー・「おわる」ボタン
+ * ============================================================ */
+.vt-teacher-trigger {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 88px;
+  height: 88px;
+  z-index: 400;
+  /* 視覚的には目立たせない(誤操作防止・原則優先度は機能重視) */
+  background: transparent;
+}
+.vt-abort-trigger {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 400;
+  min-width: 0;
+  min-height: 0;
+  padding: 12px 20px;
+  font-size: 16px;
+  background: rgba(122, 122, 122, 0.55);
+  box-shadow: none;
+  display: none;
+}
+.vt-abort-trigger.vt-visible {
+  display: inline-block;
+}
+
+/* ============================================================
+ * 共通ダイアログ(VT.Scene.dialog)
+ * ============================================================ */
+.vt-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+}
+.vt-dialog-box {
+  background: var(--ui-surface, #fff);
+  border-radius: 24px;
+  padding: 32px;
+  max-width: 480px;
+  width: 88%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: stretch;
+  box-shadow: 0 12px 32px var(--ui-shadow, rgba(0, 0, 0, 0.2));
+}
+.vt-dialog-text {
+  font-size: 24px;
+  text-align: center;
+  color: var(--ui-text, #2E2E2E);
+}
+.vt-dialog-yes { background: var(--cat-c, #F59A3E); }
+.vt-dialog-no { background: var(--ui-text-muted, #7A7A7A); }
+
+/* ============================================================
+ * 先生パネル
+ * ============================================================ */
+.vt-teacher-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  background: var(--ui-surface, #fff);
+  padding: 24px;
+}
+.vt-panel-record-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.vt-panel-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.vt-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--ui-border, #DDD6C9);
+  border-radius: 16px;
+  flex-wrap: wrap;
+}
+.vt-setting-label {
+  font-size: 18px;
+  font-weight: 700;
+  min-width: 120px;
+}
+.vt-setting-control {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* choice: セグメントボタン */
+.vt-seg-btn {
+  appearance: none;
+  border: 2px solid var(--ui-border, #DDD6C9);
+  border-radius: 14px;
+  background: #fff;
+  color: var(--ui-text, #2E2E2E);
+  font-size: 16px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+.vt-seg-btn-active {
+  background: var(--ui-accent, #4A9DE0);
+  border-color: var(--ui-accent, #4A9DE0);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* range: -/+ ステッパー */
+.vt-stepper-btn {
+  appearance: none;
+  border: none;
+  border-radius: 50%;
+  background: var(--ui-accent, #4A9DE0);
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+.vt-stepper-value {
+  min-width: 48px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* toggle: スイッチ */
+.vt-switch {
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.vt-switch-on { background: var(--ui-success, #6FBF73); color: #fff; }
+.vt-switch-off { background: var(--ui-border, #DDD6C9); color: var(--ui-text-muted, #7A7A7A); }
+
+/* ============================================================
+ * 記録グラフ(vt-chart.js) + extras表示
+ * ============================================================ */
+.vt-panel-records {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.vt-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 120px;
+  padding: 8px;
+  border: 1px solid var(--ui-border, #DDD6C9);
+  border-radius: 12px;
+}
+.vt-chart-empty {
+  align-items: center;
+  justify-content: center;
+  color: var(--ui-text-muted, #7A7A7A);
+  font-size: 14px;
+}
+.vt-chart-bar {
+  flex: 1 1 auto;
+  min-width: 8px;
+  background: var(--cat-c, #F59A3E);
+  border-radius: 4px 4px 0 0;
+}
+.vt-panel-extra-line {
+  font-size: 14px;
+  color: var(--ui-text-muted, #7A7A7A);
+}
+
+/* ============================================================
+ * 結果画面
+ * ============================================================ */
+.vt-result-heading {
+  font-size: 32px;
+  font-weight: 700;
+}
+.vt-result-value {
+  font-size: 96px;
+  font-weight: 700;
+  color: var(--cat-c, #F59A3E);
+}
+.vt-result-compare {
+  font-size: 22px;
+  color: var(--ui-success, #6FBF73);
+  font-weight: 700;
+}
+.vt-result-best {
+  font-size: 26px;
+  font-weight: 700;
+  color: #E8A400;
+}
+
+/* ============================================================
+ * VT.Feedback演出クラス(正解=華やかに・不正解=静かに。原則3)
+ * ============================================================ */
+@keyframes vt-fx-bounce-kf {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+@keyframes vt-fx-hanamaru-kf {
+  0% { transform: scale(0.8) rotate(-8deg); opacity: 0.6; }
+  50% { transform: scale(1.2) rotate(6deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes vt-fx-confetti-kf {
+  0% { transform: scale(1); filter: brightness(1); }
+  30% { transform: scale(1.3); filter: brightness(1.3); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+@keyframes vt-fx-soft-kf {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+@keyframes vt-fx-flash-kf {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+.vt-fx-marker {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  margin-left: -20px;
+  margin-top: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #FFE49A 0%, rgba(255, 228, 154, 0) 70%);
+  pointer-events: none;
+}
+
+.vt-fx-bounce { animation: vt-fx-bounce-kf 0.5s ease-out; }
+.vt-fx-hanamaru { animation: vt-fx-hanamaru-kf 0.6s ease-out; }
+.vt-fx-confetti { animation: vt-fx-confetti-kf 0.7s ease-out; }
+.vt-fx-soft { animation: vt-fx-soft-kf 0.3s ease-in-out; } /* 不正解: 静かな揺れのみ。音なし */
+.vt-fx-flash { animation: vt-fx-flash-kf 0.25s ease-in-out; } /* reduceMotion:true時、vt-feedback.jsがこのクラスを直接選ぶ */

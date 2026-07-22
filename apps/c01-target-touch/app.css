@@ -1,0 +1,18 @@
+/* app.css — C-01固有スタイル(spec-c01.md §5-2 手順4「誘導ヒント」用) */
+
+@keyframes vt-c01-hint-blink-kf {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+/* 通常時: scale 1.0<->1.08、周期1200msのゆるやかな明滅 */
+.vt-c01-hint-blink {
+  animation: vt-c01-hint-blink-kf 1200ms ease-in-out infinite;
+}
+
+/* reduceMotion:true時: 明滅の代わりに外周8pxの太い白フチ */
+.vt-c01-hint-border {
+  outline: 8px solid #FFFFFF;
+  outline-offset: -4px;
+  border-radius: 16px;
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>みるみるランド</title>
+<link rel="stylesheet" href="core/v1/css/themes.css">
+<style>
+  /* カタログ専用スタイル。base.css/components.cssは#stageのフルスクリーン前提のレイアウトなので
+     ここでは使わず、themes.cssの色トークンだけを借りる。 */
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg-kinari, #FBF7EF);
+    color: var(--ui-text, #2E2E2E);
+    font-family: "BIZUDPGothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Yu Gothic", sans-serif;
+  }
+  header { padding: 32px 16px 16px; text-align: center; }
+  header h1 { margin: 0; font-size: 28px; }
+  main { max-width: 960px; margin: 0 auto; padding: 0 16px 48px; }
+
+  section.category { margin-bottom: 32px; }
+  section.category h2 {
+    font-size: 18px; margin: 0 0 12px; padding-left: 10px;
+    border-left: 8px solid #999; /* data-cat別の色は下のセレクタで上書き */
+  }
+  h2[data-cat="A"] { border-left-color: var(--cat-a, #6EC1E4); }
+  h2[data-cat="B"] { border-left-color: var(--cat-b, #6FBF73); }
+  h2[data-cat="C"] { border-left-color: var(--cat-c, #F59A3E); }
+  h2[data-cat="D"] { border-left-color: var(--cat-d, #9B7FD1); }
+  h2[data-cat="E"] { border-left-color: var(--cat-e, #F27EB6); }
+  h2[data-cat="F"] { border-left-color: var(--cat-f, #9AA3AC); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+  a.app-card {
+    display: flex; flex-direction: column; align-items: center;
+    text-decoration: none; color: inherit;
+    background: var(--ui-surface, #fff); border-radius: 16px; padding: 16px 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  a.app-card:active { transform: translateY(2px); }
+  .app-card img { width: 64px; height: 64px; margin-bottom: 8px; }
+  .app-card .title { font-weight: 700; font-size: 14px; text-align: center; }
+  .app-card .meta { font-size: 11px; color: var(--ui-text-muted, #7A7A7A); margin-top: 4px; }
+  .badge-beta {
+    display: inline-block; font-size: 10px; margin-top: 6px;
+    background: var(--cat-c, #F59A3E); color: #fff; border-radius: 8px; padding: 2px 8px;
+  }
+
+  #error-msg, #empty-msg { display: none; text-align: center; color: #a33; padding: 32px 16px; }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="series-title">みるみるランド</h1>
+</header>
+<main id="catalog-root">
+  <p id="error-msg">
+    アプリ一覧(apps.json)を読み込めませんでした。<br>
+    ブラウザのfile://直接オープンではJSONの読み込みがブロックされる場合があります。
+    GitHub Pages等、サーバー経由で開いてください。
+  </p>
+  <p id="empty-msg">公開中のアプリはまだありません。</p>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var CATEGORY_LABELS = {
+    A: 'A 目のうんどう', B: 'B 見てわかる', C: 'C 見てうごく',
+    D: 'D おぼえる・きづく', E: 'E つかう', F: 'F はかる'
+  };
+  var CATEGORY_ORDER = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+  function el(tag, attrs) {
+    var e = document.createElement(tag);
+    if (attrs) {
+      Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+    }
+    return e;
+  }
+  function textEl(tag, className, str) {
+    var e = document.createElement(tag);
+    if (className) e.className = className;
+    e.textContent = str;
+    return e;
+  }
+
+  function renderCard(app) {
+    var card = el('a', { class: 'app-card', href: 'apps/' + app.id + '/index.html' });
+    card.appendChild(el('img', { src: 'apps/' + app.id + '/icon.svg', alt: '' }));
+    card.appendChild(textEl('div', 'title', app.title));
+
+    var starsText = Array.isArray(app.stars) ? ('★' + app.stars[0] + '〜' + app.stars[1]) : '';
+    var minutesText = app.minutes ? app.minutes + '分' : '';
+    card.appendChild(textEl('div', 'meta', [starsText, minutesText].filter(Boolean).join(' / ')));
+
+    if (app.status === 'beta') {
+      card.appendChild(textEl('span', 'badge-beta', 'ためし版'));
+    }
+    return card;
+  }
+
+  function renderCatalog(data) {
+    var seriesTitleEl = document.getElementById('series-title');
+    if (data.series && data.series.name) seriesTitleEl.textContent = data.series.name;
+
+    // status: released/beta のみカタログに表示する。planned(未実装)は登録簿にあっても非表示(design.md §8-2)
+    var apps = (data.apps || []).filter(function (a) { return a.status === 'released' || a.status === 'beta'; });
+    var root = document.getElementById('catalog-root');
+
+    if (apps.length === 0) {
+      document.getElementById('empty-msg').style.display = 'block';
+      return;
+    }
+
+    var byCategory = {};
+    apps.forEach(function (a) {
+      var cat = a.category || '?';
+      if (!byCategory[cat]) byCategory[cat] = [];
+      byCategory[cat].push(a);
+    });
+
+    var order = CATEGORY_ORDER.filter(function (c) { return byCategory[c]; })
+      .concat(Object.keys(byCategory).filter(function (c) { return CATEGORY_ORDER.indexOf(c) === -1; }));
+
+    order.forEach(function (cat) {
+      var section = el('section', { class: 'category' });
+      var h2 = textEl('h2', null, CATEGORY_LABELS[cat] || cat);
+      h2.setAttribute('data-cat', cat);
+      section.appendChild(h2);
+
+      var grid = el('div', { class: 'grid' });
+      byCategory[cat].forEach(function (app) { grid.appendChild(renderCard(app)); });
+      section.appendChild(grid);
+      root.appendChild(section);
+    });
+  }
+
+  fetch('apps.json')
+    .then(function (res) {
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      return res.json();
+    })
+    .then(renderCatalog)
+    .catch(function (err) {
+      console.error('apps.json load failed:', err);
+      document.getElementById('error-msg').style.display = 'block';
+    });
+})();
+</script>
+</body>
+</html>
