@@ -86,8 +86,18 @@
   width: 88px;
   height: 88px;
   z-index: 400;
-  /* 視覚的には目立たせない(誤操作防止・原則優先度は機能重視) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* design.md: 「長押しは児童生徒に発見される前提」。隠さず、控えめに見えるようにする */
   background: transparent;
+  color: var(--ui-text-muted, #7A7A7A);
+}
+.vt-teacher-trigger-icon {
+  width: 28px;
+  height: 28px;
+  opacity: 0.55;
+  pointer-events: none; /* アイコン自体はヒット判定に関与させず、親divのタッチ領域(88x88)を使う */
 }
 .vt-abort-trigger {
   position: fixed;
