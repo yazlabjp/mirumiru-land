@@ -347,15 +347,26 @@
       teacherPanelEl.appendChild(rows);
 
       // ---- 記録の直近推移(spec-c01.md §6: primaryはグラフ、extrasは先生モード内でのみ表示) ----
+      var records = VT._recordStore.readRecords(appId);
+
       var recordsSection = document.createElement('div');
       recordsSection.className = 'vt-panel-records';
-      var records = VT._recordStore.readRecords(appId);
+
+      var recordsHeading = document.createElement('h3');
+      recordsHeading.className = 'vt-panel-records-heading';
+      recordsHeading.textContent = 'きろく(直近' + records.recent.length + '回)';
+      recordsSection.appendChild(recordsHeading);
+
       recordsSection.appendChild(VT.Chart.render(records.recent, def.record.primary));
       (def.record.extras || []).forEach(function (ex) {
         var line = document.createElement('div');
         line.className = 'vt-panel-extra-line';
-        var vals = records.recent.map(function (r) { return r.extras && r.extras[ex.key]; }).join(', ');
-        line.textContent = ex.label + ': ' + vals;
+        var unit = ex.unit || '';
+        var vals = records.recent.map(function (r) {
+          var v = r.extras && r.extras[ex.key];
+          return (v === undefined || v === null || v === '') ? '—' : (v + unit);
+        });
+        line.textContent = ex.label + '(古い→新しい): ' + vals.join(' → ');
         recordsSection.appendChild(line);
       });
       teacherPanelEl.appendChild(recordsSection);
