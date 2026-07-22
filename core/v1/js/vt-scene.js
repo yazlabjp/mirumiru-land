@@ -428,9 +428,18 @@
       }
     }
 
-    // ---- 長押しトリガー(画面左上すみ・3秒・移動許容10px。ai-notes.md §5) ----
+    // ---- 長押しトリガー(画面左上すみ・3秒・移動許容10px。ai-notes.md §5)
+    // design.md §1-2/8-6: 「長押しは児童生徒に発見される前提で設計」する。
+    // 見た目を完全に隠すのではなく、小さな歯車アイコンで「ここ」と分かるようにする
+    // (絵文字は使わない。ai-notes.md §8「演出・アイコンはすべて自作SVG」)。
     var teacherTriggerEl = document.createElement('div');
     teacherTriggerEl.className = 'vt-teacher-trigger';
+    teacherTriggerEl.innerHTML =
+      '<svg viewBox="0 0 24 24" class="vt-teacher-trigger-icon" aria-hidden="true">' +
+      '<circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/>' +
+      '<path fill="none" stroke="currentColor" stroke-width="1.6" d="M12 3.5v2.2M12 18.3v2.2M20.5 12h-2.2M5.7 12H3.5' +
+      'M17.7 6.3l-1.6 1.6M7.9 16.1l-1.6 1.6M17.7 17.7l-1.6-1.6M7.9 7.9L6.3 6.3"/>' +
+      '</svg>';
     document.body.appendChild(teacherTriggerEl);
     if (VT.Input && typeof VT.Input.hold === 'function') {
       VT.Input.hold(teacherTriggerEl, { ms: 3000, tolerance: 10 }, function () { openTeacherPanel(); });
