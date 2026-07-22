@@ -103,8 +103,11 @@
     var startClientX = 0;
     var startClientY = 0;
 
-    function clear() {
+    function clear(evt) {
       if (timer !== null) { clearTimeout(timer); timer = null; }
+      if (pointerId !== null && evt && typeof el.releasePointerCapture === 'function') {
+        try { el.releasePointerCapture(pointerId); } catch (e) { /* no-op */ }
+      }
       pointerId = null;
     }
 
@@ -113,9 +116,15 @@
       pointerId = evt.pointerId;
       startClientX = evt.clientX;
       startClientY = evt.clientY;
+      // ポインタキャプチャ: 押さえている間に指/マウスが要素の外へわずかに出ても
+      // pointermove/pointerup を確実にこの要素へ届ける(捕捉なしだと外に出た瞬間に
+      // イベントが届かなくなり、pointerIdが内部に残ったまま次回以降反応しなくなる)。
+      if (typeof el.setPointerCapture === 'function') {
+        try { el.setPointerCapture(evt.pointerId); } catch (e) { /* no-op */ }
+      }
       timer = setTimeout(function () {
         var data = toEventData(evt, el, false);
-        clear();
+        clear(evt);
         if (onComplete) onComplete(data);
       }, ms);
     });
@@ -124,11 +133,11 @@
       if (evt.pointerId !== pointerId) return;
       var dx = evt.clientX - startClientX;
       var dy = evt.clientY - startClientY;
-      if (Math.sqrt(dx * dx + dy * dy) > tolerance) clear(); // 移動しすぎたら長押し解除
+      if (Math.sqrt(dx * dx + dy * dy) > tolerance) clear(evt); // 移動しすぎたら長押し解除
     });
 
     function release(evt) {
-      if (evt.pointerId === pointerId) clear();
+      if (evt.pointerId === pointerId) clear(evt);
     }
     el.addEventListener('pointerup', release);
     el.addEventListener('pointercancel', release);
