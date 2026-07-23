@@ -451,9 +451,13 @@
       '<path fill="none" stroke="currentColor" stroke-width="1.6" d="M12 3.5v2.2M12 18.3v2.2M20.5 12h-2.2M5.7 12H3.5' +
       'M17.7 6.3l-1.6 1.6M7.9 16.1l-1.6 1.6M17.7 17.7l-1.6-1.6M7.9 7.9L6.3 6.3"/>' +
       '</svg>';
+    var teacherTriggerHintEl = document.createElement('span');
+    teacherTriggerHintEl.className = 'vt-teacher-trigger-hint';
+    teacherTriggerHintEl.textContent = '1びょう ながおし';
+    teacherTriggerEl.appendChild(teacherTriggerHintEl);
     document.body.appendChild(teacherTriggerEl);
     if (VT.Input && typeof VT.Input.hold === 'function') {
-      VT.Input.hold(teacherTriggerEl, { ms: 3000, tolerance: 10 }, function () { openTeacherPanel(); });
+      VT.Input.hold(teacherTriggerEl, { ms: 1000, tolerance: 10 }, function () { openTeacherPanel(); });
     }
 
     // ---- 「おわる」ボタン: play中のみ表示。タップで確認ダイアログ→はいで中断(ai-notes.md §0-5, §1) ----

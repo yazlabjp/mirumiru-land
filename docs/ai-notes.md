@@ -69,7 +69,7 @@ settings: {
 - **Pointer Eventsで実装**する(touchstart/mousedown併用の二重発火実装を書かない)。指の識別は `pointerId` で追跡し、常時マルチタッチ前提(7-4)。
 - stageに `touch-action: none`、全体に `-webkit-tap-highlight-color: transparent`・`user-select: none` を適用。`contextmenu` と `gesturestart` はpreventDefault(長押しメニュー・ピンチ拡大の抑止)。viewport metaは `width=device-width, initial-scale=1, viewport-fit=cover`。
 - ゲームプレイの判定に `click` イベントを使わない(`pointerdown` 基準。反応時間測定の要件)。先生パネル内のフォームは通常のclickでよい。
-- 長押し判定(先生モード): 3000ms、移動許容10px。
+- 長押し判定(先生モード): 1000ms、移動許容10px。
 - デバウンス: **同一ターゲットに対する** 300ms以内の再タッチのみ無効。別ターゲット・別pointerIdは妨げない。
 
 ## 6. 音(vt-feedback)の確定仕様

@@ -91,11 +91,11 @@
 
   // ============================================================
   // VT.Input.hold — 長押し検出(移動tolerance px超で解除)(vt-api.md §5)
-  // 先生モードの長押し判定: 3000ms・移動許容10px(ai-notes.md §5)がデフォルト
+  // 先生モードの長押し判定: 1000ms・移動許容10px(ai-notes.md §5)がデフォルト
   // ============================================================
   Input.hold = function (el, opts, onComplete) {
     opts = opts || {};
-    var ms = (opts.ms === undefined) ? 3000 : opts.ms;
+    var ms = (opts.ms === undefined) ? 1000 : opts.ms;
     var tolerance = (opts.tolerance === undefined) ? 10 : opts.tolerance;
 
     var timer = null;

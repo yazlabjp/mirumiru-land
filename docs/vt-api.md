@@ -147,7 +147,7 @@ record: {
 |---|---|---|
 | VT.Input.tap | `(el, handler, opts?: {debounce=300})` | pointerdown基準のタップ。同一要素デバウンス付き |
 | VT.Input.drag | `(el, {onStart?, onMove, onEnd?}, opts?: {clampToStage=true})` | ドラッグ追跡(pointerIdで識別・マルチタッチ安全) |
-| VT.Input.hold | `(el, {ms=3000, tolerance=10}, onComplete)` | 長押し検出(移動tolerance px超で解除) |
+| VT.Input.hold | `(el, {ms=1000, tolerance=10}, onComplete)` | 長押し検出(移動tolerance px超で解除) |
 | VT.Input.press | `(el, {onDown, onUp})` | 押下・離しの生検出(HoldGuard=「押さえ続ける」判定用) |
 
 ---
