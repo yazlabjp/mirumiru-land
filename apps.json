@@ -13,6 +13,19 @@
       "prerequisites": [],
       "next": ["a01-fish-pursuit", "b02-find-touch"],
       "status": "beta"
+    },
+    {
+      "id": "c02-mole-pop",
+      "title": "もぐらぽん",
+      "category": "C",
+      "stars": [2, 4],
+      "stages": [2, 3],
+      "minutes": "0.5-1.5",
+      "abilities": ["素早い反応", "目と手の協応"],
+      "jiritsuKatsudo": ["環境の把握", "身体の動き"],
+      "prerequisites": [],
+      "next": [],
+      "status": "beta"
     }
   ]
 }
