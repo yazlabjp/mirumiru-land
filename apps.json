@@ -26,6 +26,19 @@
       "prerequisites": [],
       "next": [],
       "status": "beta"
+    },
+    {
+      "id": "c03-balloon-pop",
+      "title": "ふうせんパン",
+      "category": "C",
+      "stars": [2, 4],
+      "stages": [2, 4],
+      "minutes": "0.5-1.5",
+      "abilities": ["動体視力", "目と手の協応"],
+      "jiritsuKatsudo": ["環境の把握", "身体の動き"],
+      "prerequisites": [],
+      "next": [],
+      "status": "beta"
     }
   ]
 }
