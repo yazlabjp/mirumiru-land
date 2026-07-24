@@ -39,6 +39,19 @@
       "prerequisites": [],
       "next": [],
       "status": "beta"
+    },
+    {
+      "id": "c04-fruit-catch",
+      "title": "キャッチだいさくせん",
+      "category": "C",
+      "stars": [2, 4],
+      "stages": [2, 4],
+      "minutes": "1-2",
+      "abilities": ["動体視力", "落下予測"],
+      "jiritsuKatsudo": ["環境の把握", "身体の動き"],
+      "prerequisites": [],
+      "next": [],
+      "status": "beta"
     }
   ]
 }
