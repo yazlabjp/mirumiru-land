@@ -11,7 +11,7 @@
       "abilities": ["視覚探索", "目と手の協応"],
       "jiritsuKatsudo": ["環境の把握", "身体の動き"],
       "prerequisites": [],
-      "next": ["a01-fish-pursuit", "b02-find-touch", "c02-mole-pop", "c03-balloon-pop", "c04-fruit-catch"],
+      "next": ["a01-fish-pursuit", "b02-find-touch", "c02-mole-pop", "c03-balloon-pop", "c04-fruit-catch", "c08-pose-mimic"],
       "status": "beta"
     },
     {
@@ -48,6 +48,19 @@
       "stages": [2, 4],
       "minutes": "1-2",
       "abilities": ["動体視力", "落下予測"],
+      "jiritsuKatsudo": ["環境の把握", "身体の動き"],
+      "prerequisites": [],
+      "next": [],
+      "status": "beta"
+    },
+    {
+      "id": "c08-pose-mimic",
+      "title": "まねっこポーズ",
+      "category": "C",
+      "stars": [1, 2],
+      "stages": [1, 3],
+      "minutes": "3-5",
+      "abilities": ["身体図式", "全身の模倣運動"],
       "jiritsuKatsudo": ["環境の把握", "身体の動き"],
       "prerequisites": [],
       "next": [],
