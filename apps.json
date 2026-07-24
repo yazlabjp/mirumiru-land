@@ -11,7 +11,7 @@
       "abilities": ["視覚探索", "目と手の協応"],
       "jiritsuKatsudo": ["環境の把握", "身体の動き"],
       "prerequisites": [],
-      "next": ["a01-fish-pursuit", "b02-find-touch", "c03-balloon-pop"],
+      "next": ["a01-fish-pursuit", "b02-find-touch", "c02-mole-pop", "c03-balloon-pop", "c04-fruit-catch"],
       "status": "beta"
     },
     {
